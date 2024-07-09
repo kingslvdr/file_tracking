@@ -15,7 +15,7 @@ class Data{
 
 	}
 
-	public function getUser(){
+	public function get_user(){
 		$query = "SELECT USER_ID, USER_NAME from users_list";
 		$stmt = $this->mysql->prepare($query);
 		$stmt->execute();
