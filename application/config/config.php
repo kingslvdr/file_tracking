@@ -9,3 +9,4 @@ define('database','tau_system');
 define('user','root');
 define('password','');
 define('host', 'localhost');
+define('URL', 'http://localhost/file_tracking/');

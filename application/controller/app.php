@@ -8,10 +8,10 @@ class App extends Controller {
 		require 'application/views/app/index.php';
 	}
 
-	// public function Dashboard(){
-	// 	$function = $this->loadModel('data');
-	// 	require 'application/views/app/dashboard.php';
-	// }
+	public function Register(){
+		$function = $this->loadModel('data');
+		require 'application/views/app/register.php';
+	}
 
 	// public function Chickpos(){
 	// 	$function = $this->loadModel('data');

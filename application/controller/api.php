@@ -11,6 +11,10 @@ class api extends Controller {
 		$function = $this->loadModel('data');
 		require 'application/views/api/getUser.php';
 	}
+	public function registerUser(){
+		$function = $this->loadModel('data');
+		require 'application/views/api/registerUser.php';
+	}
     // public function login(){
 	// 	$function = $this->loadModel('data');
 	// 	require 'application/views/api/login_API.php';
