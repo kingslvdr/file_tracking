@@ -16,9 +16,9 @@
         $('#btn').on('click', function(){
             $.ajax({
                 method: 'GET',
-                url: 'http://localhost/file_tracking/api/getUser',
+                url: './api/getUser',
                 success: function(data){
-                    console.log(data)
+                    alert(data)
                 }
             })
         })
