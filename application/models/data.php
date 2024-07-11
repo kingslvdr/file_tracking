@@ -1,7 +1,7 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');
-// session_start();
+session_start();
 date_default_timezone_set('Asia/Manila');
 
 class Data
@@ -16,19 +16,27 @@ class Data
 
 	}
 
-	public function get_user()
+	public function get_user($username, $password)
 	{
-		$query = "SELECT USER_ID, USER_NAME from users_list";
+		$password = base64_encode($password);
+		$query = "SELECT USER_ID, USER_NAME, USER_FULLNAME from users_list
+				  where USER_NAME = ?
+				  AND USER_PASSWORD = ?";
 		$stmt = $this->mysql->prepare($query);
+		$stmt->bind_param('ss', $username, $password);
 		$stmt->execute();
 		$res = $stmt->get_result();
-		while ($row = $res->fetch_array(MYSQLI_BOTH)) {
-			$data[] = array(
-				'fName' => $row['USER_NAME'],
-				'id' => $row['USER_ID']
-			);
+		$row = $res->fetch_array(MYSQLI_BOTH);
+		if (empty($row)){
+			return array('success' => 0, 'icon' => 'error', 'message' => 'Incorrect Username or Password');
 		}
-		return $data;
+		else{
+			$_SESSION['username'] = $username;
+			$_SESSION['fullname'] = $row['USER_FULLNAME'];
+			$_SESSION['loggedin'] = true;
+
+			return array('success' => 1, 'icon' => 'success', 'message' => 'Login Success');
+		}
 	}
 
 	public function register_user($username, $password, $fullname, $email)

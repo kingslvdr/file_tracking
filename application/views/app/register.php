@@ -103,9 +103,14 @@ require './application/config/config.php';
                 $.ajax({
                     method: 'POST',
                     url: "../api/registerUser",
-                    data:{username:username, password:password, fullname:fullname, email:email},
+                    data: { username: username, password: password, fullname: fullname, email: email },
                     success: function (data) {
-                        console.log(data)
+                        if (data.success == 1) {
+                            notifyBig(data.icon, data.message, true)
+                        }
+                        else {
+                            notifyBig(data.icon, data.message, false)
+                        }
                     }
                 })
             }
@@ -118,7 +123,7 @@ require './application/config/config.php';
         })
     })
 
-    function notify(icon, message){
+    function notify(icon, message) {
         Swal.fire({
             toast: true,
             position: 'top',
@@ -127,6 +132,27 @@ require './application/config/config.php';
             icon: icon,
             title: message,
             showConfirmButton: false
+        })
+    }
+
+    function notifyBig(icon, message, reroute) {
+        Swal.fire({
+            title: message,
+            icon: icon,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonText: 'Close'
+        }).then(c => {
+            if (c.isConfirmed) {
+                if (reroute) {
+                    window.location.replace("<?php {
+                        echo URL;
+                    } ?>");
+                }
+                else{
+
+                }
+            }
         })
     }
 </script>

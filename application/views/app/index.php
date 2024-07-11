@@ -65,17 +65,66 @@ require './application/config/config.php';
 <script>
     $(document).ready(function () {
         $('#login').on('click', function () {
-            $.ajax({
-                method: 'GET',
-                url: './api/getUser',
-                success: function (data) {
-                    console.log(data)
-                }
-            })
+
+            var username = $('#username').val()
+            var password = $('#password').val()
+
+            if (username == '') {
+                notify('error', 'Please input username')
+            }
+            else if (password == '') {
+                notify('error', 'Please input password')
+            }
+            else {
+                $.ajax({
+                    method: 'GET',
+                    url: "./api/getUser",
+                    data: { username: username, password: password},
+                    success: function (data) {
+                        console.log(data)
+                        if (data.success == 1) {
+                            notifyBig(data.icon, data.message, true)
+                        }
+                        else {
+                            notifyBig(data.icon, data.message, false)
+                        }
+                    }
+                })
+            }
         })
 
         $('#regBtn').on('click', function(){
             window.location.replace("app/Register");
         })
     })
+    function notify(icon, message) {
+        Swal.fire({
+            toast: true,
+            position: 'top',
+            timerProgressBar: true,
+            timer: 2500,
+            icon: icon,
+            title: message,
+            showConfirmButton: false
+        })
+    }
+
+    function notifyBig(icon, message, reroute) {
+        Swal.fire({
+            title: message,
+            icon: icon,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonText: 'Close'
+        }).then(c => {
+            if (c.isConfirmed) {
+                if (reroute) {
+                    window.location.replace("app/Dashboard");
+                }
+                else{
+
+                }
+            }
+        })
+    }
 </script>
